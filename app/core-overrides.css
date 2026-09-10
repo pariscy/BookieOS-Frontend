@@ -59,4 +59,52 @@
 .command-copy p{font-size:15px!important}
 .mode-strip{font-size:12px!important}
 footer{font-size:11px!important}
+
+/* Cinematic mouse hover interactions */
+.agent-node,
+.mini-agent,
+.activate-button{
+  transition:transform .22s ease,filter .22s ease,box-shadow .22s ease,border-color .22s ease,background .22s ease!important;
+}
+.agent-node:hover{
+  transform:translate(-50%,-50%) scale(1.10)!important;
+  filter:brightness(1.2) drop-shadow(0 0 14px rgba(241,196,0,.38));
+}
+.agent-node:hover .node-hex{
+  transform:translateX(-50%) scale(1.12) rotate(3deg)!important;
+  background:linear-gradient(145deg,rgba(241,196,0,.42),rgba(68,136,62,.55))!important;
+  box-shadow:0 0 0 1px #ffe45e,0 0 20px rgba(241,196,0,.7),0 0 38px rgba(68,136,62,.45)!important;
+}
+.agent-node:hover b{
+  color:#fff!important;
+  text-shadow:0 0 8px rgba(255,255,255,.55),0 0 15px rgba(241,196,0,.7)!important;
+}
+.agent-node:hover small{color:#9af08f!important}
+.node-hex{transition:transform .22s ease,box-shadow .22s ease,background .22s ease,color .22s ease!important}
+
+.mini-agent:hover{
+  transform:translateX(6px) scale(1.018)!important;
+  background:linear-gradient(90deg,rgba(68,136,62,.25),rgba(241,196,0,.08))!important;
+  border-color:rgba(241,196,0,.72)!important;
+  box-shadow:0 0 16px rgba(241,196,0,.12),inset 0 0 18px rgba(68,136,62,.08)!important;
+}
+.mini-agent:hover b{color:#fff!important;text-shadow:0 0 8px rgba(241,196,0,.35)!important}
+.mini-agent:hover i.online{transform:scale(1.35);box-shadow:0 0 12px #5ce66a,0 0 24px rgba(92,230,106,.45)!important}
+.mini-agent i{transition:transform .2s ease,box-shadow .2s ease!important}
+
+.activate-button:hover{
+  transform:translateY(-3px) scale(1.045)!important;
+  border-color:#ffe55c!important;
+  color:#fff2a0!important;
+  background:radial-gradient(circle at center,rgba(241,196,0,.16),rgba(68,136,62,.22) 42%,rgba(9,11,7,.98) 78%)!important;
+  box-shadow:0 0 18px rgba(241,196,0,.38),0 0 42px rgba(241,196,0,.16),inset 0 0 30px rgba(68,136,62,.12)!important;
+}
+.activate-button:hover .button-rings i{animation-duration:1.15s!important;border-color:rgba(241,196,0,.42)!important}
+.activate-button:hover b{text-shadow:0 0 8px rgba(241,196,0,.8)!important}
+
+.agent-node:active,
+.activate-button:active{
+  transform:scale(.98)!important;
+}
+
 @media(max-width:1200px){.core-title{min-width:360px!important;padding:44px 46px!important}.core-title strong{font-size:64px!important}.core-fullname{font-size:11px;letter-spacing:2.4px}}
