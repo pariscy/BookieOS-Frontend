@@ -60,51 +60,49 @@
 .mode-strip{font-size:12px!important}
 footer{font-size:11px!important}
 
-/* Cinematic mouse hover interactions */
+/* Subtle cinematic mouse hover interactions */
 .agent-node,
 .mini-agent,
 .activate-button{
-  transition:transform .22s ease,filter .22s ease,box-shadow .22s ease,border-color .22s ease,background .22s ease!important;
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease!important;
 }
 .agent-node:hover{
-  transform:translate(-50%,-50%) scale(1.10)!important;
-  filter:brightness(1.2) drop-shadow(0 0 14px rgba(241,196,0,.38));
+  transform:translate(-50%,-50%) scale(1.035)!important;
+  filter:brightness(1.08) drop-shadow(0 0 9px rgba(241,196,0,.24));
 }
 .agent-node:hover .node-hex{
-  transform:translateX(-50%) scale(1.12) rotate(3deg)!important;
-  background:linear-gradient(145deg,rgba(241,196,0,.42),rgba(68,136,62,.55))!important;
-  box-shadow:0 0 0 1px #ffe45e,0 0 20px rgba(241,196,0,.7),0 0 38px rgba(68,136,62,.45)!important;
+  transform:translateX(-50%) scale(1.04)!important;
+  background:linear-gradient(145deg,rgba(241,196,0,.28),rgba(68,136,62,.46))!important;
+  box-shadow:0 0 0 1px #ffe45e,0 0 12px rgba(241,196,0,.42),0 0 24px rgba(68,136,62,.28)!important;
 }
 .agent-node:hover b{
   color:#fff!important;
-  text-shadow:0 0 8px rgba(255,255,255,.55),0 0 15px rgba(241,196,0,.7)!important;
+  text-shadow:0 0 6px rgba(255,255,255,.35),0 0 10px rgba(241,196,0,.45)!important;
 }
-.agent-node:hover small{color:#9af08f!important}
-.node-hex{transition:transform .22s ease,box-shadow .22s ease,background .22s ease,color .22s ease!important}
+.agent-node:hover small{color:#8fd986!important}
+.node-hex{transition:transform .18s ease,box-shadow .18s ease,background .18s ease,color .18s ease!important}
 
 .mini-agent:hover{
-  transform:translateX(6px) scale(1.018)!important;
-  background:linear-gradient(90deg,rgba(68,136,62,.25),rgba(241,196,0,.08))!important;
-  border-color:rgba(241,196,0,.72)!important;
-  box-shadow:0 0 16px rgba(241,196,0,.12),inset 0 0 18px rgba(68,136,62,.08)!important;
+  transform:translateX(2px)!important;
+  background:linear-gradient(90deg,rgba(68,136,62,.17),rgba(241,196,0,.05))!important;
+  border-color:rgba(241,196,0,.5)!important;
+  box-shadow:0 0 9px rgba(241,196,0,.08),inset 0 0 12px rgba(68,136,62,.05)!important;
 }
-.mini-agent:hover b{color:#fff!important;text-shadow:0 0 8px rgba(241,196,0,.35)!important}
-.mini-agent:hover i.online{transform:scale(1.35);box-shadow:0 0 12px #5ce66a,0 0 24px rgba(92,230,106,.45)!important}
-.mini-agent i{transition:transform .2s ease,box-shadow .2s ease!important}
+.mini-agent:hover b{color:#fff!important;text-shadow:0 0 6px rgba(241,196,0,.22)!important}
+.mini-agent:hover i.online{transform:scale(1.12);box-shadow:0 0 9px #5ce66a,0 0 14px rgba(92,230,106,.28)!important}
+.mini-agent i{transition:transform .18s ease,box-shadow .18s ease!important}
 
 .activate-button:hover{
-  transform:translateY(-3px) scale(1.045)!important;
-  border-color:#ffe55c!important;
-  color:#fff2a0!important;
-  background:radial-gradient(circle at center,rgba(241,196,0,.16),rgba(68,136,62,.22) 42%,rgba(9,11,7,.98) 78%)!important;
-  box-shadow:0 0 18px rgba(241,196,0,.38),0 0 42px rgba(241,196,0,.16),inset 0 0 30px rgba(68,136,62,.12)!important;
+  transform:translateY(-1px) scale(1.015)!important;
+  border-color:#f7d941!important;
+  color:#fff0a0!important;
+  background:radial-gradient(circle at center,rgba(241,196,0,.10),rgba(68,136,62,.18) 42%,rgba(9,11,7,.98) 78%)!important;
+  box-shadow:0 0 12px rgba(241,196,0,.24),0 0 26px rgba(241,196,0,.10),inset 0 0 20px rgba(68,136,62,.08)!important;
 }
-.activate-button:hover .button-rings i{animation-duration:1.15s!important;border-color:rgba(241,196,0,.42)!important}
-.activate-button:hover b{text-shadow:0 0 8px rgba(241,196,0,.8)!important}
+.activate-button:hover .button-rings i{animation-duration:2.2s!important;border-color:rgba(241,196,0,.28)!important}
+.activate-button:hover b{text-shadow:0 0 6px rgba(241,196,0,.55)!important}
 
-.agent-node:active,
-.activate-button:active{
-  transform:scale(.98)!important;
-}
+.agent-node:active{transform:translate(-50%,-50%) scale(.99)!important}
+.activate-button:active{transform:translateY(0) scale(.99)!important}
 
 @media(max-width:1200px){.core-title{min-width:360px!important;padding:44px 46px!important}.core-title strong{font-size:64px!important}.core-fullname{font-size:11px;letter-spacing:2.4px}}
