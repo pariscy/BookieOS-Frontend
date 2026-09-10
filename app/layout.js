@@ -1,4 +1,5 @@
 import './globals.css';
+import './bookieco-theme.css';
 
 export const metadata = {
   title: 'BookieOS',
