@@ -57,7 +57,7 @@ function HoloCore({ active }) {
   });
 
   return (
-    <group ref={group}>
+    <group ref={group} scale={1.12}>
       <points>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" count={particles.length / 3} array={particles} itemSize={3} />
@@ -69,15 +69,15 @@ function HoloCore({ active }) {
       <mesh ref={ringC} rotation={[0.72, 1.08, 0.44]}><torusGeometry args={[2.28, 0.034, 8, 170]} /><meshBasicMaterial color="#F1C400" transparent opacity={0.56} blending={THREE.AdditiveBlending} /></mesh>
       {[0, 1, 2, 3, 4].map((i) => (
         <mesh key={i} rotation={[Math.PI / 2, 0, i * 0.56]}>
-          <torusGeometry args={[1.42 + i * 0.16, 0.018, 8, 120, Math.PI * 1.45]} />
+          <torusGeometry args={[1.66 + i * 0.18, 0.022, 8, 120, Math.PI * 1.45]} />
           <meshBasicMaterial color={i % 2 ? '#44883E' : '#F1C400'} transparent opacity={0.77 - i * 0.09} blending={THREE.AdditiveBlending} />
         </mesh>
       ))}
-      <mesh ref={core}><icosahedronGeometry args={[1.08, 4]} /><meshPhongMaterial color="#171a16" emissive={active ? '#F1C400' : '#735f08'} emissiveIntensity={active ? 1.45 : 0.55} transparent opacity={0.88} wireframe /></mesh>
-      <mesh><sphereGeometry args={[0.78, 56, 56]} /><meshPhongMaterial color="#172118" emissive="#44883E" emissiveIntensity={active ? 1.9 : 0.85} transparent opacity={0.66} /></mesh>
-      <mesh rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[1.24, 0.025, 8, 140]} /><meshBasicMaterial color="#F1C400" transparent opacity={0.62} blending={THREE.AdditiveBlending} /></mesh>
-      <pointLight color="#F1C400" intensity={active ? 10 : 5} distance={16} />
-      <pointLight color="#44883E" intensity={active ? 6 : 3} distance={14} position={[0, 0, 1]} />
+      <mesh ref={core}><icosahedronGeometry args={[1.52, 4]} /><meshPhongMaterial color="#171a16" emissive={active ? '#F1C400' : '#735f08'} emissiveIntensity={active ? 1.45 : 0.55} transparent opacity={0.88} wireframe /></mesh>
+      <mesh><sphereGeometry args={[1.12, 64, 64]} /><meshPhongMaterial color="#172118" emissive="#44883E" emissiveIntensity={active ? 1.9 : 0.85} transparent opacity={0.66} /></mesh>
+      <mesh rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[1.68, 0.03, 8, 160]} /><meshBasicMaterial color="#F1C400" transparent opacity={0.68} blending={THREE.AdditiveBlending} /></mesh>
+      <pointLight color="#F1C400" intensity={active ? 11 : 5.5} distance={18} />
+      <pointLight color="#44883E" intensity={active ? 7 : 3.5} distance={16} position={[0, 0, 1]} />
     </group>
   );
 }
@@ -100,16 +100,16 @@ export default function Home() {
           <div className="brand">BI<span>ON</span></div>
           <div className="brand-sub">BOOKIECO INTELLIGENCE OPERATIONS NETWORK</div>
         </div>
-        <div className="company-mark">Bookie<span>Co</span><i>✦</i><small>PLAY SMARTER</small></div>
+        <div className="company-mark">Bookie<span>Co</span><small>PLAY SMARTER</small></div>
         <div className="top-status"><div><span className="live-dot" /> SYSTEM ONLINE</div><small>CYPRUS NODE · LIVE</small></div>
       </header>
 
       <section className="cinematic-stage">
         <div className="stage-map" /><div className="atmosphere atmosphere-a" /><div className="atmosphere atmosphere-b" />
-        <div className="core-canvas"><Canvas camera={{ position: [0, 0.1, 9.2], fov: 42 }} dpr={[1, 1.6]}><ambientLight intensity={0.16} /><HoloCore active={listening} /></Canvas></div>
+        <div className="core-canvas"><Canvas camera={{ position: [0, 0.1, 8.6], fov: 42 }} dpr={[1, 1.6]}><ambientLight intensity={0.16} /><HoloCore active={listening} /></Canvas></div>
         <div className="core-title">
           <small>{listening ? 'VOICE LINK ACTIVE' : 'NEURAL CORE ONLINE'}</small>
-          <strong>BI<span>ON</span></strong>
+          <strong>BION</strong>
           <span>{listening ? 'ΔΡΟΜΟΛΟΓΗΣΗ ΕΝΤΟΛΗΣ' : 'ΑΝΑΜΟΝΗ ΕΝΤΟΛΗΣ'}</span>
         </div>
         <div className="radar-sweep" /><div className="crosshair horizontal" /><div className="crosshair vertical" />
