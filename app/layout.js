@@ -1,6 +1,7 @@
 import './globals.css';
 import './bookieco-theme.css';
 import './cinematic.css';
+import './core-overrides.css';
 
 export const metadata = {
   title: 'BION | BookieCo Intelligence Operations Network',
