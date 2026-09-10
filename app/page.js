@@ -6,23 +6,25 @@ import * as THREE from 'three';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const agents = [
-  ['WEEKLY MATCH SCOUT', 'ONLINE'],
-  ['BET RESEARCHER', 'ONLINE'],
-  ['MARKETING MANAGER', 'ONLINE'],
-  ['SPORTS NEWS', 'ONLINE'],
-  ['COMPETITOR WATCH', 'STANDBY'],
-  ['SPORTS CALENDAR', 'ONLINE'],
-  ['ARTICLE WRITER', 'STANDBY'],
-  ['BRAINSTORM', 'ONLINE'],
+  ['WEEKLY MATCH SCOUT', 'ONLINE', '⚽'],
+  ['BET RESEARCHER', 'ONLINE', '▥'],
+  ['MARKETING MANAGER', 'ONLINE', '◈'],
+  ['SPORTS NEWS', 'ONLINE', '▤'],
+  ['COMPETITOR WATCH', 'STANDBY', '◉'],
+  ['SPORTS CALENDAR', 'ONLINE', '▦'],
+  ['ARTICLE WRITER', 'STANDBY', '▧'],
+  ['BRAINSTORM', 'ONLINE', '✦'],
 ];
 
 const agentPositions = [
-  ['WEEKLY MATCH SCOUT', 18, 22],
-  ['BET RESEARCHER', 78, 20],
-  ['MARKETING MANAGER', 88, 48],
-  ['SPORTS NEWS', 74, 77],
-  ['COMPETITOR WATCH', 24, 80],
-  ['SPORTS CALENDAR', 8, 52],
+  ['WEEKLY MATCH SCOUT', 50, 13, '⚽'],
+  ['BET RESEARCHER', 76, 22, '▥'],
+  ['MARKETING MANAGER', 82, 51, '◈'],
+  ['SPORTS NEWS', 70, 78, '▤'],
+  ['COMPETITOR WATCH', 50, 86, '◉'],
+  ['SPORTS CALENDAR', 29, 78, '▦'],
+  ['ARTICLE WRITER', 18, 51, '▧'],
+  ['BRAINSTORM', 25, 23, '✦'],
 ];
 
 function HoloCore({ active }) {
@@ -34,10 +36,10 @@ function HoloCore({ active }) {
 
   const particles = useMemo(() => {
     const pts = [];
-    for (let i = 0; i < 420; i += 1) {
-      const r = 3.2 + Math.random() * 4.5;
+    for (let i = 0; i < 620; i += 1) {
+      const r = 2.8 + Math.random() * 5.4;
       const a = Math.random() * Math.PI * 2;
-      const y = (Math.random() - 0.5) * 4.8;
+      const y = (Math.random() - 0.5) * 5.4;
       pts.push(Math.cos(a) * r, y, Math.sin(a) * r);
     }
     return new Float32Array(pts);
@@ -45,12 +47,12 @@ function HoloCore({ active }) {
 
   useFrame((state, delta) => {
     if (!group.current) return;
-    group.current.rotation.y += delta * 0.07;
-    group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.25) * 0.08;
-    ringA.current.rotation.z += delta * 0.34;
-    ringB.current.rotation.x -= delta * 0.28;
-    ringC.current.rotation.y += delta * 0.42;
-    const pulse = 1 + Math.sin(state.clock.elapsedTime * (active ? 5 : 2.2)) * (active ? 0.055 : 0.025);
+    group.current.rotation.y += delta * 0.055;
+    group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.22) * 0.06;
+    ringA.current.rotation.z += delta * 0.3;
+    ringB.current.rotation.x -= delta * 0.22;
+    ringC.current.rotation.y += delta * 0.36;
+    const pulse = 1 + Math.sin(state.clock.elapsedTime * (active ? 4.8 : 2.1)) * (active ? 0.055 : 0.025);
     core.current.scale.setScalar(pulse);
   });
 
@@ -60,40 +62,44 @@ function HoloCore({ active }) {
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" count={particles.length / 3} array={particles} itemSize={3} />
         </bufferGeometry>
-        <pointsMaterial color="#F1C400" size={0.035} transparent opacity={0.45} blending={THREE.AdditiveBlending} depthWrite={false} />
+        <pointsMaterial color="#F1C400" size={0.032} transparent opacity={0.42} blending={THREE.AdditiveBlending} depthWrite={false} />
       </points>
 
-      <mesh ref={ringA} rotation={[1.08, 0.2, 0.2]}>
-        <torusGeometry args={[3.25, 0.018, 8, 180]} />
-        <meshBasicMaterial color="#F1C400" transparent opacity={0.82} blending={THREE.AdditiveBlending} />
+      <mesh ref={ringA} rotation={[1.02, 0.2, 0.18]}>
+        <torusGeometry args={[3.38, 0.02, 8, 220]} />
+        <meshBasicMaterial color="#F1C400" transparent opacity={0.86} blending={THREE.AdditiveBlending} />
       </mesh>
-      <mesh ref={ringB} rotation={[0.35, 0.55, 1.2]}>
-        <torusGeometry args={[2.62, 0.026, 8, 160]} />
-        <meshBasicMaterial color="#FFE24A" transparent opacity={0.48} blending={THREE.AdditiveBlending} />
-      </mesh>
-      <mesh ref={ringC} rotation={[0.7, 1.1, 0.4]}>
-        <torusGeometry args={[2.03, 0.032, 8, 150]} />
+      <mesh ref={ringB} rotation={[0.38, 0.58, 1.1]}>
+        <torusGeometry args={[2.88, 0.027, 8, 190]} />
         <meshBasicMaterial color="#44883E" transparent opacity={0.72} blending={THREE.AdditiveBlending} />
       </mesh>
+      <mesh ref={ringC} rotation={[0.72, 1.08, 0.44]}>
+        <torusGeometry args={[2.28, 0.034, 8, 170]} />
+        <meshBasicMaterial color="#F1C400" transparent opacity={0.56} blending={THREE.AdditiveBlending} />
+      </mesh>
 
-      {[0, 1, 2, 3].map((i) => (
-        <mesh key={i} rotation={[Math.PI / 2, 0, i * 0.72]}>
-          <torusGeometry args={[1.45 + i * 0.17, 0.018, 8, 100, Math.PI * 1.35]} />
-          <meshBasicMaterial color={i % 2 ? '#F1C400' : '#44883E'} transparent opacity={0.74 - i * 0.1} blending={THREE.AdditiveBlending} />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <mesh key={i} rotation={[Math.PI / 2, 0, i * 0.56]}>
+          <torusGeometry args={[1.42 + i * 0.16, 0.018, 8, 120, Math.PI * 1.45]} />
+          <meshBasicMaterial color={i % 2 ? '#44883E' : '#F1C400'} transparent opacity={0.77 - i * 0.09} blending={THREE.AdditiveBlending} />
         </mesh>
       ))}
 
       <mesh ref={core}>
-        <icosahedronGeometry args={[1.03, 3]} />
-        <meshPhongMaterial color="#212322" emissive={active ? '#F1C400' : '#6F5B00'} emissiveIntensity={active ? 1.35 : 0.5} transparent opacity={0.86} wireframe />
+        <icosahedronGeometry args={[1.08, 4]} />
+        <meshPhongMaterial color="#171a16" emissive={active ? '#F1C400' : '#735f08'} emissiveIntensity={active ? 1.45 : 0.55} transparent opacity={0.88} wireframe />
       </mesh>
       <mesh>
-        <sphereGeometry args={[0.68, 48, 48]} />
-        <meshPhongMaterial color="#242622" emissive="#44883E" emissiveIntensity={active ? 1.75 : 0.8} transparent opacity={0.62} />
+        <sphereGeometry args={[0.78, 56, 56]} />
+        <meshPhongMaterial color="#172118" emissive="#44883E" emissiveIntensity={active ? 1.9 : 0.85} transparent opacity={0.66} />
+      </mesh>
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[1.24, 0.025, 8, 140]} />
+        <meshBasicMaterial color="#F1C400" transparent opacity={0.62} blending={THREE.AdditiveBlending} />
       </mesh>
 
-      <pointLight color="#F1C400" intensity={active ? 9 : 4.5} distance={16} />
-      <pointLight color="#44883E" intensity={active ? 4 : 2} distance={12} position={[0, 0, 1]} />
+      <pointLight color="#F1C400" intensity={active ? 10 : 5} distance={16} />
+      <pointLight color="#44883E" intensity={active ? 6 : 3} distance={14} position={[0, 0, 1]} />
     </group>
   );
 }
@@ -101,21 +107,11 @@ function HoloCore({ active }) {
 export default function Home() {
   const [activeAgent, setActiveAgent] = useState(null);
   const [listening, setListening] = useState(false);
-  const [activity, setActivity] = useState([
-    'Sports News Monitor online',
-    'Calendar sync complete',
-    'Neural router awaiting task',
-    'Voice subsystem ready',
-  ]);
 
   const activate = () => {
-    const next = listening ? null : 'MARKETING MANAGER';
-    setListening(!listening);
-    setActiveAgent(next);
-    if (!listening) {
-      setActivity((items) => ['Voice command detected · routing request', ...items].slice(0, 5));
-      setTimeout(() => setActiveAgent('MARKETING MANAGER'), 350);
-    }
+    const nextListening = !listening;
+    setListening(nextListening);
+    setActiveAgent(nextListening ? 'MARKETING MANAGER' : null);
   };
 
   return (
@@ -126,31 +122,36 @@ export default function Home() {
       <div className="scan-beam" />
 
       <header className="cinematic-topbar">
-        <div className="brand-block">
+        <div className="header-left">
           <div className="eyebrow">BOOKIECO // ARTIFICIAL INTELLIGENCE DIVISION</div>
           <div className="brand">BOOKIE<span>OS</span></div>
+          <div className="brand-sub">ΠΙΟ ΕΞΥΠΝΕΣ ΙΔΕΕΣ · ΜΕΓΑΛΥΤΕΡΕΣ ΕΥΚΑΙΡΙΕΣ</div>
         </div>
+
+        <div className="company-mark">Bookie<span>Co</span><i>✦</i><small>PLAY SMARTER</small></div>
+
         <div className="top-status">
-          <span className="live-dot" /> SYSTEM ONLINE
-          <small>CYPRUS NODE · SECURE LINK</small>
+          <div><span className="live-dot" /> SYSTEM ONLINE</div>
+          <small>CYPRUS NODE · LIVE</small>
         </div>
       </header>
 
       <section className="cinematic-stage">
+        <div className="stage-map" />
         <div className="atmosphere atmosphere-a" />
         <div className="atmosphere atmosphere-b" />
 
         <div className="core-canvas">
-          <Canvas camera={{ position: [0, 0.2, 8.8], fov: 43 }} dpr={[1, 1.7]}>
-            <ambientLight intensity={0.15} />
+          <Canvas camera={{ position: [0, 0.1, 9.2], fov: 42 }} dpr={[1, 1.6]}>
+            <ambientLight intensity={0.16} />
             <HoloCore active={listening} />
           </Canvas>
         </div>
 
         <div className="core-title">
           <small>{listening ? 'VOICE LINK ACTIVE' : 'NEURAL CORE ONLINE'}</small>
-          <strong>BOOKIEOS</strong>
-          <span>{listening ? 'ROUTING COMMAND' : 'AWAITING COMMAND'}</span>
+          <strong>BOOKIE<span>OS</span></strong>
+          <span>{listening ? 'ΔΡΟΜΟΛΟΓΗΣΗ ΕΝΤΟΛΗΣ' : 'ΑΝΑΜΟΝΗ ΕΝΤΟΛΗΣ'}</span>
         </div>
 
         <div className="radar-sweep" />
@@ -163,25 +164,24 @@ export default function Home() {
           ))}
         </svg>
 
-        {agentPositions.map(([name, x, y], i) => (
+        {agentPositions.map(([name, x, y, icon], i) => (
           <motion.button
             key={name}
             className={`agent-node ${activeAgent === name ? 'active' : ''}`}
             style={{ left: `${x}%`, top: `${y}%` }}
-            initial={{ opacity: 0, scale: 0.6 }}
+            initial={{ opacity: 0, scale: 0.65 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.35 + i * 0.08 }}
+            transition={{ delay: 0.18 + i * 0.07 }}
             onClick={() => setActiveAgent(activeAgent === name ? null : name)}
           >
-            <span className="node-orbit" />
-            <span className="node-core" />
+            <span className="node-hex">{icon}</span>
             <b>{name}</b>
             <small>{activeAgent === name ? 'ACTIVE LINK' : 'STANDBY'}</small>
           </motion.button>
         ))}
 
         <aside className="floating-panel left-panel">
-          <div className="panel-cap">AGENT MATRIX</div>
+          <div className="panel-cap">AI AGENT MATRIX</div>
           {agents.map(([name, status], i) => (
             <div className={`mini-agent ${activeAgent === name ? 'selected' : ''}`} key={name} onClick={() => setActiveAgent(name)}>
               <span>0{i + 1}</span>
@@ -191,14 +191,43 @@ export default function Home() {
           ))}
         </aside>
 
+        <aside className="floating-panel global-feed">
+          <div className="panel-cap">GLOBAL FEED</div>
+          <div className="map-dots" />
+          <div className="feed-stat"><span>ΑΓΟΡΕΣ ΥΠΟ ΠΑΡΑΚΟΛΟΥΘΗΣΗ</span><b>120+</b></div>
+          <div className="feed-stat"><span>LIVE EVENTS</span><b>342</b></div>
+          <div className="feed-stat"><span>DATA SOURCES</span><b>18</b></div>
+        </aside>
+
         <aside className="floating-panel right-panel">
           <div className="panel-cap">SYSTEM TELEMETRY</div>
           <div className="telemetry"><span>AI CORE</span><b>100%</b></div>
           <div className="meter"><i style={{ width: '100%' }} /></div>
           <div className="telemetry"><span>AGENT LINK</span><b>{activeAgent ? '100%' : '87%'}</b></div>
           <div className="meter"><i style={{ width: activeAgent ? '100%' : '87%' }} /></div>
+          <div className="telemetry"><span>DATA FEED</span><b>94%</b></div>
+          <div className="meter"><i style={{ width: '94%' }} /></div>
           <div className="telemetry"><span>VOICE ARRAY</span><b>{listening ? 'LIVE' : 'ARMED'}</b></div>
           <div className="signal-grid">{Array.from({ length: 28 }).map((_, i) => <i key={i} />)}</div>
+
+          <div className="secondary-panel">
+            <div className="panel-cap">LIVE ACTIVITY</div>
+            <div className="activity-list">
+              <p><b>12:41:03</b><span>AI Core online</span></p>
+              <p><b>12:41:07</b><span>Web sources connected</span></p>
+              <p><b>12:41:12</b><span>Agent network ready</span></p>
+              <p><b>12:41:18</b><span>Cyprus node stable</span></p>
+              <p><b>12:41:24</b><span>Voice system armed</span></p>
+            </div>
+          </div>
+
+          <div className="secondary-panel">
+            <div className="panel-cap">UPCOMING FIXTURES</div>
+            <div className="fixture"><i>⚽</i><div><b>Champions League</b><small>Σήμερα · 22:00</small></div></div>
+            <div className="fixture"><i>◉</i><div><b>Premier League</b><small>Αύριο · 19:30</small></div></div>
+            <div className="fixture"><i>◆</i><div><b>La Liga</b><small>Αύριο · 20:00</small></div></div>
+            <div className="fixture"><i>⬡</i><div><b>Serie A</b><small>Αύριο · 21:45</small></div></div>
+          </div>
         </aside>
 
         <AnimatePresence>
@@ -214,12 +243,15 @@ export default function Home() {
 
       <section className="command-console">
         <div className={`voice-wave ${listening ? 'hot' : ''}`}>
-          {Array.from({ length: 36 }).map((_, i) => <i key={i} style={{ '--n': i }} />)}
+          {Array.from({ length: 42 }).map((_, i) => <i key={i} style={{ '--n': i }} />)}
         </div>
-        <div className="command-copy">
-          <div className="eyebrow">VOICE COMMAND</div>
-          <h2>{listening ? 'Σε ακούω…' : 'Μίλησε στο BookieOS'}</h2>
-          <p>{listening ? 'Το BookieOS αναλύει και δρομολογεί το αίτημα.' : 'Το σύστημα θα επιλέξει αυτόματα τον σωστό agent.'}</p>
+        <div className="command-center">
+          <div className="mic-medallion">●</div>
+          <div className="command-copy">
+            <div className="eyebrow">VOICE COMMAND</div>
+            <h2>{listening ? 'Σε ακούω…' : 'Μίλησε στο BookieOS'}</h2>
+            <p>{listening ? 'Το BookieOS αναλύει και δρομολογεί το αίτημα.' : 'Το σύστημα θα επιλέξει αυτόματα τον σωστό agent.'}</p>
+          </div>
         </div>
         <button className={`activate-button ${listening ? 'active' : ''}`} onClick={activate}>
           <span className="button-rings"><i /><i /><i /></span>
@@ -227,16 +259,11 @@ export default function Home() {
         </button>
       </section>
 
-      <section className="activity-strip">
-        <div className="activity-title">LIVE SYSTEM ACTIVITY</div>
-        <div className="activity-feed">
-          {activity.map((item, i) => <span key={`${item}-${i}`}><b>{`03:4${2 + i}:${18 + i * 5}`}</b>{item}</span>)}
-        </div>
-      </section>
+      <section className="mode-strip"><b>ANALYSE</b><span>·</span><span>RESEARCH</span><span>·</span><span>CREATE</span><span>·</span><span>MONITOR</span><span>·</span><span>OPTIMISE</span><span>·</span><span>GROW</span></section>
 
       <footer>
-        <span>BOOKIEOS // CINEMATIC NEURAL INTERFACE</span>
-        <span>BOOKIECO INTERNAL SYSTEM · CYPRUS</span>
+        <span>CYPRUS // 60+ SHOPS // RETAIL ONLY</span>
+        <span className="footer-yellow">POWERED BY AI // BUILT FOR BETTORS</span>
       </footer>
     </main>
   );
