@@ -3,8 +3,8 @@ import './bookieco-theme.css';
 import './cinematic.css';
 
 export const metadata = {
-  title: 'BookieOS',
-  description: 'BookieCo AI Command Interface',
+  title: 'BION | BookieCo Intelligence Operations Network',
+  description: 'BION — BookieCo Intelligence Operations Network',
 };
 
 export default function RootLayout({ children }) {
