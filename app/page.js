@@ -60,39 +60,40 @@ function HoloCore({ active }) {
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" count={particles.length / 3} array={particles} itemSize={3} />
         </bufferGeometry>
-        <pointsMaterial color="#55e9ff" size={0.035} transparent opacity={0.5} blending={THREE.AdditiveBlending} depthWrite={false} />
+        <pointsMaterial color="#F1C400" size={0.035} transparent opacity={0.45} blending={THREE.AdditiveBlending} depthWrite={false} />
       </points>
 
       <mesh ref={ringA} rotation={[1.08, 0.2, 0.2]}>
         <torusGeometry args={[3.25, 0.018, 8, 180]} />
-        <meshBasicMaterial color="#50eaff" transparent opacity={0.7} blending={THREE.AdditiveBlending} />
+        <meshBasicMaterial color="#F1C400" transparent opacity={0.82} blending={THREE.AdditiveBlending} />
       </mesh>
       <mesh ref={ringB} rotation={[0.35, 0.55, 1.2]}>
         <torusGeometry args={[2.62, 0.026, 8, 160]} />
-        <meshBasicMaterial color="#85f7ff" transparent opacity={0.48} blending={THREE.AdditiveBlending} />
+        <meshBasicMaterial color="#FFE24A" transparent opacity={0.48} blending={THREE.AdditiveBlending} />
       </mesh>
       <mesh ref={ringC} rotation={[0.7, 1.1, 0.4]}>
         <torusGeometry args={[2.03, 0.032, 8, 150]} />
-        <meshBasicMaterial color="#28bcd5" transparent opacity={0.6} blending={THREE.AdditiveBlending} />
+        <meshBasicMaterial color="#44883E" transparent opacity={0.72} blending={THREE.AdditiveBlending} />
       </mesh>
 
       {[0, 1, 2, 3].map((i) => (
         <mesh key={i} rotation={[Math.PI / 2, 0, i * 0.72]}>
           <torusGeometry args={[1.45 + i * 0.17, 0.018, 8, 100, Math.PI * 1.35]} />
-          <meshBasicMaterial color={i % 2 ? '#7ef8ff' : '#31cce7'} transparent opacity={0.72 - i * 0.1} blending={THREE.AdditiveBlending} />
+          <meshBasicMaterial color={i % 2 ? '#F1C400' : '#44883E'} transparent opacity={0.74 - i * 0.1} blending={THREE.AdditiveBlending} />
         </mesh>
       ))}
 
       <mesh ref={core}>
         <icosahedronGeometry args={[1.03, 3]} />
-        <meshPhongMaterial color="#0b2833" emissive={active ? '#22d9f4' : '#087a91'} emissiveIntensity={active ? 1.3 : 0.58} transparent opacity={0.82} wireframe />
+        <meshPhongMaterial color="#212322" emissive={active ? '#F1C400' : '#6F5B00'} emissiveIntensity={active ? 1.35 : 0.5} transparent opacity={0.86} wireframe />
       </mesh>
       <mesh>
         <sphereGeometry args={[0.68, 48, 48]} />
-        <meshPhongMaterial color="#0d4454" emissive="#29d8ef" emissiveIntensity={active ? 1.9 : 0.9} transparent opacity={0.58} />
+        <meshPhongMaterial color="#242622" emissive="#44883E" emissiveIntensity={active ? 1.75 : 0.8} transparent opacity={0.62} />
       </mesh>
 
-      <pointLight color="#4cecff" intensity={active ? 10 : 5} distance={16} />
+      <pointLight color="#F1C400" intensity={active ? 9 : 4.5} distance={16} />
+      <pointLight color="#44883E" intensity={active ? 4 : 2} distance={12} position={[0, 0, 1]} />
     </group>
   );
 }
