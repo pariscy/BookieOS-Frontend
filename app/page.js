@@ -47,12 +47,12 @@ function HoloCore({ active }) {
 
   useFrame((state, delta) => {
     if (!group.current) return;
-    group.current.rotation.y += delta * 0.055;
-    group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.22) * 0.06;
-    ringA.current.rotation.z += delta * 0.3;
-    ringB.current.rotation.x -= delta * 0.22;
-    ringC.current.rotation.y += delta * 0.36;
-    const pulse = 1 + Math.sin(state.clock.elapsedTime * (active ? 4.8 : 2.1)) * (active ? 0.055 : 0.025);
+    group.current.rotation.y += delta * 0.045;
+    group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.22) * 0.045;
+    ringA.current.rotation.z += delta * 0.22;
+    ringB.current.rotation.x -= delta * 0.17;
+    ringC.current.rotation.y += delta * 0.26;
+    const pulse = 1 + Math.sin(state.clock.elapsedTime * (active ? 4.8 : 2.1)) * (active ? 0.045 : 0.018);
     core.current.scale.setScalar(pulse);
   });
 
@@ -62,22 +62,37 @@ function HoloCore({ active }) {
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" count={particles.length / 3} array={particles} itemSize={3} />
         </bufferGeometry>
-        <pointsMaterial color="#F1C400" size={0.032} transparent opacity={0.42} blending={THREE.AdditiveBlending} depthWrite={false} />
+        <pointsMaterial color="#F1C400" size={0.028} transparent opacity={0.34} blending={THREE.AdditiveBlending} depthWrite={false} />
       </points>
-      <mesh ref={ringA} rotation={[1.02, 0.2, 0.18]}><torusGeometry args={[3.38, 0.02, 8, 220]} /><meshBasicMaterial color="#F1C400" transparent opacity={0.86} blending={THREE.AdditiveBlending} /></mesh>
-      <mesh ref={ringB} rotation={[0.38, 0.58, 1.1]}><torusGeometry args={[2.88, 0.027, 8, 190]} /><meshBasicMaterial color="#44883E" transparent opacity={0.72} blending={THREE.AdditiveBlending} /></mesh>
-      <mesh ref={ringC} rotation={[0.72, 1.08, 0.44]}><torusGeometry args={[2.28, 0.034, 8, 170]} /><meshBasicMaterial color="#F1C400" transparent opacity={0.56} blending={THREE.AdditiveBlending} /></mesh>
-      {[0, 1, 2, 3, 4].map((i) => (
-        <mesh key={i} rotation={[Math.PI / 2, 0, i * 0.56]}>
-          <torusGeometry args={[1.66 + i * 0.18, 0.022, 8, 120, Math.PI * 1.45]} />
-          <meshBasicMaterial color={i % 2 ? '#44883E' : '#F1C400'} transparent opacity={0.77 - i * 0.09} blending={THREE.AdditiveBlending} />
-        </mesh>
-      ))}
-      <mesh ref={core}><icosahedronGeometry args={[1.52, 4]} /><meshPhongMaterial color="#171a16" emissive={active ? '#F1C400' : '#735f08'} emissiveIntensity={active ? 1.45 : 0.55} transparent opacity={0.88} wireframe /></mesh>
-      <mesh><sphereGeometry args={[1.12, 64, 64]} /><meshPhongMaterial color="#172118" emissive="#44883E" emissiveIntensity={active ? 1.9 : 0.85} transparent opacity={0.66} /></mesh>
-      <mesh rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[1.68, 0.03, 8, 160]} /><meshBasicMaterial color="#F1C400" transparent opacity={0.68} blending={THREE.AdditiveBlending} /></mesh>
-      <pointLight color="#F1C400" intensity={active ? 11 : 5.5} distance={18} />
-      <pointLight color="#44883E" intensity={active ? 7 : 3.5} distance={16} position={[0, 0, 1]} />
+
+      <mesh ref={ringA} rotation={[1.02, 0.2, 0.18]}>
+        <torusGeometry args={[3.5, 0.016, 8, 220]} />
+        <meshBasicMaterial color="#F1C400" transparent opacity={0.56} blending={THREE.AdditiveBlending} />
+      </mesh>
+      <mesh ref={ringB} rotation={[0.38, 0.58, 1.1]}>
+        <torusGeometry args={[3.08, 0.019, 8, 190]} />
+        <meshBasicMaterial color="#44883E" transparent opacity={0.5} blending={THREE.AdditiveBlending} />
+      </mesh>
+      <mesh ref={ringC} rotation={[0.72, 1.08, 0.44]}>
+        <torusGeometry args={[2.68, 0.018, 8, 170]} />
+        <meshBasicMaterial color="#F1C400" transparent opacity={0.32} blending={THREE.AdditiveBlending} />
+      </mesh>
+
+      <mesh ref={core}>
+        <icosahedronGeometry args={[1.58, 4]} />
+        <meshPhongMaterial color="#111811" emissive={active ? '#F1C400' : '#6d5a05'} emissiveIntensity={active ? 1.15 : 0.38} transparent opacity={0.52} wireframe />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[1.22, 64, 64]} />
+        <meshPhongMaterial color="#061006" emissive="#2f7632" emissiveIntensity={active ? 1.5 : 0.62} transparent opacity={0.56} />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[0.92, 64, 64]} />
+        <meshPhongMaterial color="#020402" emissive={active ? '#e2bf16' : '#244b22'} emissiveIntensity={active ? 0.65 : 0.22} transparent opacity={0.9} />
+      </mesh>
+
+      <pointLight color="#F1C400" intensity={active ? 9 : 4.2} distance={18} />
+      <pointLight color="#44883E" intensity={active ? 6 : 3} distance={16} position={[0, 0, 1]} />
     </group>
   );
 }
@@ -106,10 +121,11 @@ export default function Home() {
 
       <section className="cinematic-stage">
         <div className="stage-map" /><div className="atmosphere atmosphere-a" /><div className="atmosphere atmosphere-b" />
-        <div className="core-canvas"><Canvas camera={{ position: [0, 0.1, 8.6], fov: 42 }} dpr={[1, 1.6]}><ambientLight intensity={0.16} /><HoloCore active={listening} /></Canvas></div>
+        <div className="core-canvas"><Canvas camera={{ position: [0, 0.1, 8.6], fov: 42 }} dpr={[1, 1.6]}><ambientLight intensity={0.12} /><HoloCore active={listening} /></Canvas></div>
         <div className="core-title">
           <small>{listening ? 'VOICE LINK ACTIVE' : 'NEURAL CORE ONLINE'}</small>
           <strong>BION</strong>
+          <div className="core-fullname">BOOKIECO INTELLIGENCE<br/>OPERATIONS NETWORK</div>
           <span>{listening ? 'ΔΡΟΜΟΛΟΓΗΣΗ ΕΝΤΟΛΗΣ' : 'ΑΝΑΜΟΝΗ ΕΝΤΟΛΗΣ'}</span>
         </div>
         <div className="radar-sweep" /><div className="crosshair horizontal" /><div className="crosshair vertical" />
