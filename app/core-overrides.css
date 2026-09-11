@@ -30,5 +30,15 @@
 .activate-button:hover b{text-shadow:0 0 6px rgba(241,196,0,.55)!important}
 .activate-button:active{transform:none!important}
 
+/* Workspace: main report and controls scroll independently */
+.workspace-overlay{height:100%!important;min-height:0!important;overflow:hidden!important}
+.workspace-main{height:100%!important;min-height:0!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+.workspace-head{flex:0 0 auto!important}
+.report-scroll{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important;scrollbar-gutter:stable!important;padding-right:14px!important}
+.workspace-side{height:100%!important;min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important;scrollbar-gutter:stable!important}
+.report-scroll::-webkit-scrollbar,.workspace-side::-webkit-scrollbar{width:9px}
+.report-scroll::-webkit-scrollbar-thumb,.workspace-side::-webkit-scrollbar-thumb{background:rgba(241,196,0,.34);border-radius:20px}
+.report-scroll::-webkit-scrollbar-track,.workspace-side::-webkit-scrollbar-track{background:rgba(255,255,255,.025)}
+
 @media(max-width:1200px){.core-title{min-width:360px!important;padding:44px 46px!important}.core-title strong{font-size:64px!important}.core-fullname{font-size:11px;letter-spacing:2.4px}.agent-node{margin-left:-63px!important;margin-top:-56px!important}}
 @media(max-width:900px){.agent-node{margin-left:-55px!important}}
