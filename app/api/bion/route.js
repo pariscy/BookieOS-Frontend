@@ -1,5 +1,5 @@
 export const runtime = 'nodejs';
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const MODEL = 'gpt-5.6-luna';
 
@@ -24,7 +24,7 @@ FRESHNESS AND DATE VALIDATION ARE MANDATORY. First establish today's real date a
 
 For every major CONFIRMED OUT or suspension, cross-check with a second recent reliable source whenever possible; current official club/league/competition information is strongest. For red cards, second yellows, yellow-card accumulation and disciplinary bans, verify the competition rules/decision and that the suspension applies specifically to the NEXT fixture; never assume cards transfer between competitions. If evidence conflicts or current status cannot be verified, classify DOUBTFUL/UNCONFIRMED or omit it rather than presenting it as confirmed.
 
-Prioritise Cyprus teams, Greek teams, Cyprus/Greek clubs in Europe, Champions League, Europa League, Conference League, Premier League, La Liga, Serie A, Bundesliga, major internationals and derbies. Focus on starters, stars, goalkeepers, captains and multiple important absences, not minor injuries.
+Prioritise Cyprus teams, Greek teams, Cyprus/Greek clubs in Europe, Champions League, Europa League, Conference League, Premier League, La Liga, Serie A, Bundesliga, major internationals and derbies. Focus on starters, stars, goalkeepers, captains and multiple important absences, not minor injuries. Focus first on matches in the next 3 days, then expand only if time remains. Do not waste time building exhaustive lists for every league; quality and current relevance are more important.
 
 Structure: begin with today's checked date and FRESHNESS WINDOW. Then 1) 🔴 CONFIRMED OUT — NEXT MATCH, 2) 🟠 DOUBTFUL / LATE FITNESS CHECK, 3) 🟢 IMPORTANT RETURNS, 4) ⚠️ DISCIPLINARY WATCH, 5) BION PRIORITY SUMMARY. For EVERY reported player include actual next fixture/date, reason/status, SOURCE DATE, source/confirmation, SECOND CHECK/date when available, and practical impact. If sufficiently recent verification cannot be found, explicitly say no major CURRENT confirmed absence was verified. Accuracy/freshness beats filling the report.`,
   competitor: `You are Competitor Watch for BookieCo in Cyprus. Research recent public marketing activity and promotions from relevant betting competitors. Focus on useful ideas, campaign patterns, social content and positioning. Do not copy competitors and clearly distinguish verified facts from analysis.`,
