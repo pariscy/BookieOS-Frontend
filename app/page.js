@@ -31,7 +31,6 @@ const defaults = {
 };
 
 const instantAgents = new Set(['weekly','news','competitor','calendar']);
-
 const nodePositions=[['WEEKLY MATCH SCOUT',50,12,'⚽'],['BET RESEARCHER',75,18,'▥'],['MARKETING MANAGER',84,42,'◈'],['SPORTS NEWS',79,69,'▤'],['COMPETITOR WATCH',61,84,'◉'],['RESEARCH AGENT 09',39,84,'⌕'],['SPORTS CALENDAR',21,69,'▦'],['ARTICLE WRITER',16,42,'▧'],['BRAINSTORM',25,18,'✦']];
 
 function HoloCore({active}){
@@ -64,34 +63,22 @@ export default function Home(){
   const[workspace,setWorkspace]=useState(false),[agentKey,setAgentKey]=useState('research'),[activeAgent,setActiveAgent]=useState(null),[prompt,setPrompt]=useState(defaults.research),[command,setCommand]=useState(''),[result,setResult]=useState(''),[resultTitle,setResultTitle]=useState('BION WORKSPACE'),[loading,setLoading]=useState(false),[error,setError]=useState(''),[listening,setListening]=useState(false),[articleLength,setArticleLength]=useState('Short');
   const selected=agents.find(a=>a.key===agentKey);
 
-  const selectAgent=(key)=>{
-    const a=agents.find(x=>x.key===key);
-    setAgentKey(key);setActiveAgent(a?.name||null);setPrompt(defaults[key]??'');setError('');
-  };
+  const selectAgent=(key)=>{const a=agents.find(x=>x.key===key);setAgentKey(key);setActiveAgent(a?.name||null);setPrompt(defaults[key]??'');setError('');};
 
   async function runAgent(key=agentKey,text=prompt){
     if(!text.trim()){setError('Γράψε πρώτα τι θέλεις να κάνει ο agent.');return;}
     setLoading(true);setError('');setResult('');
     try{
       const res=await fetch('/api/bion',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({agent:key,prompt:text,options:{length:articleLength}})});
-      const raw=await res.text();
-      let data;
+      const raw=await res.text();let data;
       try{data=JSON.parse(raw)}catch{throw new Error(res.ok?'Το BION backend επέστρεψε μη αναμενόμενη απάντηση.':'BION backend error: '+(raw.slice(0,220)||`HTTP ${res.status}`))}
       if(!res.ok)throw new Error(data.error||`BION backend error (${res.status})`);
       setResultTitle(data.title||'BION');setResult(data.result||'');setWorkspace(true);
     }catch(e){setError(e.message)}finally{setLoading(false)}
   }
 
-  function activateAgent(key){
-    const a=agents.find(x=>x.key===key);
-    setAgentKey(key);setActiveAgent(a?.name||null);setPrompt(defaults[key]??'');setError('');setWorkspace(true);
-    if(instantAgents.has(key)) runAgent(key,defaults[key]||'Run now.');
-  }
-
-  function openAgent(name){
-    const a=agents.find(x=>x.name===name);
-    if(a) activateAgent(a.key);
-  }
+  function activateAgent(key){const a=agents.find(x=>x.key===key);setAgentKey(key);setActiveAgent(a?.name||null);setPrompt(defaults[key]??'');setError('');setWorkspace(true);if(instantAgents.has(key)) runAgent(key,defaults[key]||'Run now.');}
+  function openAgent(name){const a=agents.find(x=>x.name===name);if(a) activateAgent(a.key);}
 
   function activateVoice(){
     if(typeof window==='undefined')return;
@@ -103,9 +90,31 @@ export default function Home(){
     r.start();
   }
 
-  function runCommand(){
-    const text=command.trim();if(!text)return;
-    const key=chooseAgent(text);selectAgent(key);setPrompt(text);setWorkspace(true);runAgent(key,text);
+  function runCommand(){const text=command.trim();if(!text)return;const key=chooseAgent(text);selectAgent(key);setPrompt(text);setWorkspace(true);runAgent(key,text);}
+
+  async function exportPdf(){
+    if(!result)return;
+    try{
+      const html2pdf=(await import('html2pdf.js')).default;
+      const root=document.createElement('div');
+      root.style.cssText='font-family:Arial,sans-serif;color:#212322;background:#fff;padding:18px 22px;line-height:1.45;width:760px;';
+      const brand=document.createElement('div');brand.style.cssText='font-size:26px;font-weight:900;text-align:center;margin-bottom:2px;';brand.innerHTML='Bookie<span style="color:#F1C400">Co</span>';root.appendChild(brand);
+      const sub=document.createElement('div');sub.textContent='BION · BookieCo Intelligence Operations Network';sub.style.cssText='text-align:center;color:#44883E;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:14px;';root.appendChild(sub);
+      const rule=document.createElement('div');rule.style.cssText='height:3px;background:#F1C400;margin-bottom:18px;';root.appendChild(rule);
+      const title=document.createElement('h1');title.textContent=resultTitle;title.style.cssText='font-size:22px;margin:0 0 14px;color:#212322;';root.appendChild(title);
+      result.split('\n').forEach(raw=>{
+        const line=raw.trim();
+        if(!line){const s=document.createElement('div');s.style.height='6px';root.appendChild(s);return;}
+        if(line==='---'){const hr=document.createElement('hr');hr.style.cssText='border:0;border-top:1px solid #44883E;margin:14px 0';root.appendChild(hr);return;}
+        let el;
+        if(line.startsWith('### ')){el=document.createElement('h3');el.textContent=line.slice(4);el.style.cssText='font-size:14px;color:#44883E;margin:12px 0 6px';}
+        else if(line.startsWith('## ')){el=document.createElement('h2');el.textContent=line.slice(3);el.style.cssText='font-size:17px;color:#44883E;margin:14px 0 7px';}
+        else if(line.startsWith('# ')){el=document.createElement('h1');el.textContent=line.slice(2);el.style.cssText='font-size:19px;margin:16px 0 8px';}
+        else{el=document.createElement('p');el.textContent=(line.startsWith('- ')?'• '+line.slice(2):line.replaceAll('**',''));el.style.cssText='font-size:11px;margin:4px 0;';}
+        root.appendChild(el);
+      });
+      await html2pdf().set({margin:10,filename:agentKey==='scout'?'BION_Weekly_Match_Scout_Report.pdf':'BION_Weekly_Workflow_Report.pdf',image:{type:'jpeg',quality:.98},html2canvas:{scale:2,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy']}}).from(root).save();
+    }catch(e){setError('PDF export error: '+e.message);}
   }
 
   return <main className={`cinematic-shell ${listening?'is-listening':''}`}>
@@ -125,7 +134,7 @@ export default function Home(){
       </>}
 
       {workspace&&<div className="workspace-overlay">
-        <section className="workspace-main"><div className="workspace-head"><div><small>ACTIVE WORKSPACE // {selected?.status||'ONLINE'}</small><h2>{resultTitle}</h2></div><div className="workspace-actions"><button className="hud-btn" onClick={()=>{setWorkspace(false);setError('')}}>← CORE</button><button className="hud-btn" onClick={()=>setResult('')}>CLEAR</button></div></div><div className="report-scroll"><Report text={result}/></div></section>
+        <section className="workspace-main"><div className="workspace-head"><div><small>ACTIVE WORKSPACE // {selected?.status||'ONLINE'}</small><h2>{resultTitle}</h2></div><div className="workspace-actions">{result&&(agentKey==='weekly'||agentKey==='scout')&&<button className="hud-btn" onClick={exportPdf}>⬇ EXPORT PDF</button>}<button className="hud-btn" onClick={()=>{setWorkspace(false);setError('')}}>← CORE</button><button className="hud-btn" onClick={()=>setResult('')}>CLEAR</button></div></div><div className="report-scroll"><Report text={result}/></div></section>
         <aside className="workspace-side"><div className="control-title">AI AGENT MATRIX</div><div className="agent-menu"><button className={agentKey==='weekly'?'active':''} onClick={()=>activateAgent('weekly')}><span>⟳</span><div><b>WEEKLY WORKFLOW</b><small>ONE CLICK · Scout → Bet Researcher → Marketing</small></div></button>{agents.map(a=><button key={a.key} className={agentKey===a.key?'active':''} onClick={()=>activateAgent(a.key)}><span>{a.icon}</span><div><b>{a.name}</b><small>{instantAgents.has(a.key)?'ONE CLICK · RUN NOW':a.status}</small></div></button>)}</div>
           <div className="agent-form"><div className="control-title">{agentKey==='weekly'?'WEEKLY WORKFLOW':selected?.name}</div>
             {instantAgents.has(agentKey)
